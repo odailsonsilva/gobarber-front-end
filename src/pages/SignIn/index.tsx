@@ -6,7 +6,7 @@ import { FormHandles } from '@unform/core';
 import { sign } from 'crypto';
 import getValidationErros from '../../utils/getValidationErros';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 import logoImg from '../../assets/imgs/logo.svg';
 
