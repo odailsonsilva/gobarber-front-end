@@ -3,7 +3,10 @@ import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { sign } from 'crypto';
 import getValidationErros from '../../utils/getValidationErros';
+
+import { useAuth } from '../../context/AuthContext';
 
 import logoImg from '../../assets/imgs/logo.svg';
 
@@ -12,10 +15,17 @@ import { Container, Content, Background } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: object) => {
+  const { signIn, user } = useAuth();
+
+  const handleSubmit = useCallback(async (data: SignInFormData) => {
     try {
       formRef.current?.setErrors({});
 
@@ -29,9 +39,18 @@ const SignIn: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
+
+      signIn({
+        email: data.email,
+        password: data.password,
+      });
     } catch (err) {
-      const erros = getValidationErros(err);
-      formRef.current?.setErrors(erros);
+      if (err instanceof Yup.ValidationError) {
+        const erros = getValidationErros(err);
+        formRef.current?.setErrors(erros);
+      }
+
+      // disparar um toast
     }
   }, []);
 
