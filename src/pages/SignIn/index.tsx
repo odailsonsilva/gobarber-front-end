@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { sign } from 'crypto';
+import { Link } from 'react-router-dom';
 import getValidationErros from '../../utils/getValidationErros';
 
 import { useAuth } from '../../hooks/auth';
@@ -11,7 +12,7 @@ import { useToast } from '../../hooks/toast';
 
 import logoImg from '../../assets/imgs/logo.svg';
 
-import { Container, Content, Background } from './styles';
+import { Container, Content, Background, AnimationContainer } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -66,28 +67,30 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="logo" />
+        <AnimationContainer>
+          <img src={logoImg} alt="logo" />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu logon</h1>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça seu logon</h1>
 
-          <Input name="email" icon={FiMail} placeholder="E-mail" />
-          <Input
-            name="password"
-            icon={FiLock}
-            placeholder="Senha"
-            type="password"
-          />
+            <Input name="email" icon={FiMail} placeholder="E-mail" />
+            <Input
+              name="password"
+              icon={FiLock}
+              placeholder="Senha"
+              type="password"
+            />
 
-          <Button type="submit">Entrar</Button>
+            <Button type="submit">Entrar</Button>
 
-          <a href="fort">Esqueci minha senha</a>
-        </Form>
+            <a href="fort">Esqueci minha senha</a>
+          </Form>
 
-        <a href="create">
-          <FiLogIn />
-          Criar conta
-        </a>
+          <Link to="/signup">
+            <FiLogIn />
+            Criar conta
+          </Link>
+        </AnimationContainer>
       </Content>
       <Background />
     </Container>
